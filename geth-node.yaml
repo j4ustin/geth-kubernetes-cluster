@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+    labels:
+        name: geth-node
+    name: geth-node
+spec:
+    replicas: 1
+    selector:
+        name: geth-node
+    template:
+        metadata:
+            labels:
+                name: geth-node
+        spec:
+            containers:
+                - name: geth-node
+                  image: j4ustin/geth-testnet-cluster
+                  command:
+                      - "geth"
+                      - "--identity"
+                      - "\"kubernodeth\""
+                      - "--genesis"
+                      - "/etc/testnet/CustomGenesis.json"
+                      - "--rpc"
+                      - "--rpcport"
+                      - "8080"
+                      - "--rpccorsdomain"
+                      - "\"*\""
+                      - "--datadir"
+                      - "\"/etc/testnet\""
+                      - "--port"
+                      - "30303"
+                      - "--nodiscover"
+                      - "--autodag"
+                      - "--networkid"
+                      - "9087"
+                      - "--nat"
+                      - "any"
+            ports:
+                - containerPort: 8080
+                - containerPort: 30303
+            resources:
+                limits:
+                    cpu: "0.25"

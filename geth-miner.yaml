@@ -2,51 +2,47 @@ apiVersion: v1
 kind: ReplicationController
 metadata:
     labels:
-        name: geth
-    name: geth
+        name: geth-miner
+    name: geth-miner
 spec:
     replicas: 1
     selector:
-        name: geth
+        name: geth-miner
     template:
         metadata:
             labels:
-                name: geth
-            namespace: prod
+                name: geth-miner
         spec:
             containers:
-                - name: geth
-                  image: ethereum/client-go
+                - name: geth-miner
+                  image: j4ustin/geth-testnet-cluster
                   command:
                       - "geth"
+                      - "--mine"
+                      - "--minerthreads"
+                      - "1"
                       - "--identity"
-                      - "MyNodeName"
+                      - "\"kubernodeth\""
                       - "--genesis"
                       - "/etc/testnet/CustomGenesis.json"
-                      - "--rpc --rpcport"
-                      - "8000"
+                      - "--rpc"
+                      - "--rpcport"
+                      - "8080"
                       - "--rpccorsdomain"
-                      - "*"
+                      - "\"*\""
                       - "--datadir"
-                      - 'C:\chains\VPSChain'
+                      - "\"/etc/testnet\""
                       - "--port"
                       - "30303"
                       - "--nodiscover"
-                      - "--ipcapi"
-                      - "admin,db,eth,debug,miner,net,shh,txpool,personal,web3"
-                      - "--rpcapi"
-                      - "db,eth,net,web3"
                       - "--autodag"
                       - "--networkid"
-                      - "1900"
+                      - "9087"
                       - "--nat"
-                       - "any"
-                       - "console"
+                      - "any"
             ports:
-                - containerPort: 8545
+                - containerPort: 8080
                 - containerPort: 30303
             resources:
                 limits:
                     cpu: "0.25"
-            nodeSelector:
-                env: prod
