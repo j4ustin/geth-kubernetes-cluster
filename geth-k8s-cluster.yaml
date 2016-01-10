@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+    labels:
+        name: geth
+    name: geth
+spec:
+    replicas: 1
+    selector:
+        name: geth
+    template:
+        metadata:
+            labels:
+                name: geth
+            namespace: prod
+        spec:
+            containers:
+                - name: geth
+                  image: ethereum/client-go
+                  command:
+                      - "geth"
+                      - "--identity"
+                      - "MyNodeName"
+                      - "--genesis"
+                      - "/etc/testnet/CustomGenesis.json"
+                      - "--rpc --rpcport"
+                      - "8000"
+                      - "--rpccorsdomain"
+                      - "*"
+                      - "--datadir"
+                      - 'C:\chains\VPSChain'
+                      - "--port"
+                      - "30303"
+                      - "--nodiscover"
+                      - "--ipcapi"
+                      - "admin,db,eth,debug,miner,net,shh,txpool,personal,web3"
+                      - "--rpcapi"
+                      - "db,eth,net,web3"
+                      - "--autodag"
+                      - "--networkid"
+                      - "1900"
+                      - "--nat"
+                       - "any"
+                       - "console"
+            ports:
+                - containerPort: 8545
+                - containerPort: 30303
+            resources:
+                limits:
+                    cpu: "0.25"
+            nodeSelector:
+                env: prod
