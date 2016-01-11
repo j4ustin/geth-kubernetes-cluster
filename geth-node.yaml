@@ -31,7 +31,6 @@ spec:
                       - "\"/etc/testnet\""
                       - "--port"
                       - "30303"
-                      - "--nodiscover"
                       - "--autodag"
                       - "--networkid"
                       - "9087"
