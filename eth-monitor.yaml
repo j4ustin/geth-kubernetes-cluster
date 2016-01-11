@@ -15,9 +15,10 @@ spec:
         spec:
             containers:
                 - name: eth-monitor
-                  image: cubedro/eth-netstats
+                  image: j4ustin/eth-netstats
                   command:
-                      - "WS_SECRET=supersecretpassword npm start"
+                      - "WS_SECRET=supersecretpassword"
+                      - "npm start"
             ports:
                 - containerPort: 3000
             resources:
