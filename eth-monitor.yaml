@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+    labels:
+        name: eth-monitor
+    name: eth-monitor
+spec:
+    replicas: 1
+    selector:
+        name: eth-monitor
+    template:
+        metadata:
+            labels:
+                name: eth-monitor
+        spec:
+            containers:
+                - name: eth-monitor
+                  image: cubedro/eth-netstats
+                  command:
+                      - "WS_SECRET=supersecretpassword npm start"
+            ports:
+                - containerPort: 3000
+            resources:
+                limits:
+                    cpu: "0.25"

@@ -41,6 +41,8 @@ spec:
                       - "9087"
                       - "--nat"
                       - "any"
+                - name: geth-monitor-api
+                  image: j4ustin/eth-net-intelligence
             ports:
                 - containerPort: 8080
                 - containerPort: 30303
